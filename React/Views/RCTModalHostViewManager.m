@@ -21,6 +21,7 @@ RCT_ENUM_CONVERTER(UIModalPresentationStyle, (@{
 #if !TARGET_OS_TV
   @"pageSheet": @(UIModalPresentationPageSheet),
   @"formSheet": @(UIModalPresentationFormSheet),
+  @"popover": @(UIModalPresentationPopover),
 #endif
   @"overFullScreen": @(UIModalPresentationOverFullScreen),
 }), UIModalPresentationFullScreen, integerValue)

@@ -190,8 +190,40 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:coder)
     if (self.presentationStyle != UIModalPresentationNone) {
       _modalViewController.modalPresentationStyle = self.presentationStyle;
     }
+    /// JGS - configure popoverPresentationController
+    if (self.presentationStyle == UIModalPresentationPopover) {
+      /*
+       * The `anchor` option takes a view to set as the anchor for the popover
+       * to point to, on iPads running iOS 8. If it is not passed, it defaults
+       * to centering the popover on screen without any arrows.
+       */
+      NSNumber *anchorViewTag = nil;  ///[RCTConvert NSNumber:options[@"anchor"]];
+      UIView *sourceView = [[self reactViewController] view];
+      CGRect sourceRect = [self sourceRectInView:sourceView anchorViewTag:anchorViewTag];
+      _modalViewController.popoverPresentationController.sourceView = sourceView;
+      _modalViewController.popoverPresentationController.sourceRect = sourceRect;
+      if (!anchorViewTag) {
+        _modalViewController.popoverPresentationController.permittedArrowDirections = 0;
+      }
+    }
     [_delegate presentModalHostView:self withViewController:_modalViewController animated:[self hasAnimationType]];
     _isPresented = YES;
+  }
+}
+
+/*
+ * The `anchor` option takes a view to set as the anchor for the popover
+ * to point to, on iPads running iOS 8. If it is not passed, it defaults
+ * to centering the popover on screen without any arrows.
+ */
+- (CGRect)sourceRectInView:(UIView *)sourceView
+             anchorViewTag:(NSNumber *)anchorViewTag
+{
+  if (anchorViewTag) {
+    UIView *anchorView = [_bridge.uiManager viewForReactTag:anchorViewTag];
+    return [anchorView convertRect:anchorView.bounds toView:sourceView];
+  } else {
+    return (CGRect){sourceView.center, {1, 1}};
   }
 }
 
