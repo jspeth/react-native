@@ -26,6 +26,7 @@
 @property (nonatomic, copy) RCTDirectEventBlock onShow;
 
 @property (nonatomic, copy) NSNumber *identifier;
+@property (nonatomic, copy) NSNumber *anchorViewTag;
 
 @property (nonatomic, weak) id<RCTModalHostViewInteractor> delegate;
 

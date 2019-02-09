@@ -68,8 +68,12 @@ type Props = $ReadOnly<{|
     | 'fullScreen'
     | 'pageSheet'
     | 'formSheet'
+    | 'popover'
     | 'overFullScreen'
   ),
+
+  /// JGS
+  ///anchorViewTag?: ?number,
 
   /**
    * The `transparent` prop determines whether your modal will fill the
@@ -252,6 +256,7 @@ class Modal extends React.Component<Props> {
       <RCTModalHostView
         animationType={animationType}
         presentationStyle={presentationStyle}
+        anchorViewTag={this.props.anchorViewTag}
         transparent={this.props.transparent}
         hardwareAccelerated={this.props.hardwareAccelerated}
         onRequestClose={this.props.onRequestClose}

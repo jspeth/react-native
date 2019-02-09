@@ -41,8 +41,12 @@ type ModalNativeProps = $ReadOnly<{|
     | 'fullScreen'
     | 'pageSheet'
     | 'formSheet'
+    | 'popover'
     | 'overFullScreen'
   ),
+
+  /// JGS
+  ///anchorViewTag?: ?number,
 
   /**
    * The `transparent` prop determines whether your modal will fill the

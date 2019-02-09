@@ -197,7 +197,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:coder)
        * to point to, on iPads running iOS 8. If it is not passed, it defaults
        * to centering the popover on screen without any arrows.
        */
-      NSNumber *anchorViewTag = nil;  ///[RCTConvert NSNumber:options[@"anchor"]];
+      NSNumber *anchorViewTag = self.anchorViewTag;
       UIView *sourceView = [[self reactViewController] view];
       CGRect sourceRect = [self sourceRectInView:sourceView anchorViewTag:anchorViewTag];
       _modalViewController.popoverPresentationController.sourceView = sourceView;
