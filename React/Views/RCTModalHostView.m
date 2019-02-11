@@ -20,6 +20,9 @@
 #import "RCTTVRemoteHandler.h"
 #endif
 
+@interface RCTModalHostView () <UIPopoverPresentationControllerDelegate>
+@end
+
 @implementation RCTModalHostView
 {
   __weak RCTBridge *_bridge;
@@ -70,10 +73,12 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:coder)
         _onRequestClose(nil);
     }
 }
+#endif
 
 - (void)setOnRequestClose:(RCTDirectEventBlock)onRequestClose
 {
   _onRequestClose = onRequestClose;
+#if TARGET_OS_TV
   if (_reactSubview) {
     if (_onRequestClose && _menuButtonGestureRecognizer) {
       [_reactSubview addGestureRecognizer:_menuButtonGestureRecognizer];
@@ -81,8 +86,8 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:coder)
       [_reactSubview removeGestureRecognizer:_menuButtonGestureRecognizer];
     }
   }
-}
 #endif
+}
 
 - (void)notifyForBoundsChange:(CGRect)newBounds
 {
@@ -166,6 +171,13 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:coder)
   }
 }
 
+- (void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController
+{
+  if (_onRequestClose) {
+    _onRequestClose(nil);
+  }
+}
+
 - (void)didMoveToWindow
 {
   [super didMoveToWindow];
@@ -205,6 +217,7 @@ RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:coder)
       if (!anchorViewTag) {
         _modalViewController.popoverPresentationController.permittedArrowDirections = 0;
       }
+      _modalViewController.popoverPresentationController.delegate = self;
     }
     [_delegate presentModalHostView:self withViewController:_modalViewController animated:[self hasAnimationType]];
     _isPresented = YES;
