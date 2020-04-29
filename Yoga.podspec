@@ -7,7 +7,7 @@ package = JSON.parse(File.read(File.expand_path('./package.json', __dir__)))
 version = package['version']
 
 source = { :git => 'https://github.com/jspeth/react-native.git' }
-source[:branch] => 'jspeth/publish-test'
+source[:branch] = 'jspeth/publish-test'
 # if version == '1000.0.0'
 #   # This is an unpublished version, use the latest commit hash of the react-native repo, which we’re presumably in.
 #   source[:commit] = `git rev-parse HEAD`.strip
